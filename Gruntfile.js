@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       },
       sass:{
         files: paths.sass,
-        tasks:['compass'],
+        tasks:['compass:dev'],
         options: {
           livereload: true,
         }
@@ -55,10 +55,20 @@ module.exports = function(grunt) {
     },
     // COMPASS
     compass:{
-      dist: {
+      dev: {
         options: {
           sassDir: 'sass',
-          config: 'config.rb'
+          config: 'config.rb',
+          bundleExec: true,  // use Bundler specified versions
+          outputStyle: 'expanded'
+        }
+      },
+      stage: {
+        options: {
+          sassDir: 'sass',
+          config: 'config.rb',
+          bundleExec: true,  // use Bundler specified versions
+          outputStyle: 'compressed'
         }
       }
     },
@@ -112,6 +122,7 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
   //Test task.
-  grunt.registerTask('default', ['browserSync', 'coffee','compass', 'watch']);
+  grunt.registerTask('default', ['coffee','compass:dev', 'watch']);
+  grunt.registerTask('stage', ['coffee','compass:stage', 'watch']);
 
 };
