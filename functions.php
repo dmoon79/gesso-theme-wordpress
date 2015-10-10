@@ -256,3 +256,26 @@ add_filter('body_class', 'add_slug_to_body_class');
 add_filter('post_thumbnail_html', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to thumbnails
 add_filter('image_send_to_editor', 'remove_thumbnail_dimensions', 10); // Remove width and height dynamic attributes to post images
 add_action( 'admin_init', 'gesso_add_editor_styles' );
+
+//---------------------------
+//WooCommerce Support - Configured for Gesso
+//---------------------------
+remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
+remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
+
+add_action('woocommerce_before_main_content', 'my_theme_wrapper_start', 10);
+add_action('woocommerce_after_main_content', 'my_theme_wrapper_end', 10);
+
+function my_theme_wrapper_start() {
+  echo '<main id="main" class="site-main" role="main">';
+}
+
+function my_theme_wrapper_end() {
+  echo '</main>';
+}
+
+//Add WooCommerce support
+add_action( 'after_setup_theme', 'woocommerce_support' );
+function woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+}
